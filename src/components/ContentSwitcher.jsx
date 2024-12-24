@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import Card from "./ui/card";
+import Card from "./ui/product-card";
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProducts } from "@/store/productsSlice";
