@@ -1,19 +1,34 @@
 "use client";
 
-import { useState } from "react";
-import Card from "@/components/ui/card";
-import { products } from "@/lib/data";
 import Spacer from "@/components/ui/spacer";
 import { ContentSwitcher } from "@/components/ContentSwitcher";
-
+import { useState, useEffect } from "react";
 
 export default function Products() {
-  const categories = [
-    { id: 1, name: "All" },
-    { id: 2, name: "Valorant" },
-    { id: 3, name: "Spoofers" },
-    { id: 4, name: "Accounts" },
-  ];
+  const [categories, setCategories] = useState(null)
+  useEffect(() => {
+      const fetchCategories = async () => {
+        try {
+          const response = await fetch("/api/categories", { method: "GET" });
+          if (!response.ok) {
+            throw new Error("Failed to fetch categories");
+          }
+          const data = await response.json();
+  
+          // Assuming the API returns an object with a `categories` field
+          if (Array.isArray(data.categories)) {
+            setCategories(data.categories); // Extract the array
+          } else {
+            throw new Error("Unexpected API response structure");
+          }
+        } catch (error) {
+          console.error("Error fetching categories:", error);
+        }
+      };
+  
+      fetchCategories();
+    }, []);
+    console.log(categories)
   return (
     <div className="min-h-screen w-full">
       <Spacer />

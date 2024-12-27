@@ -8,7 +8,7 @@ import PaymentBrainTree from "@/components/PaymentBrainTree";
 
 export default async function ProductDetails({ params }) {
   const { id } = await params; // Get the dynamic route parameter
-  const product = products.find((p) => p.id === parseInt(id));
+  const product = products.find((p) => p._id === parseInt(id));
   const detailsSections = [
     { id: 1, name: "Description" },
     { id: 2, name: "Requirements" },
