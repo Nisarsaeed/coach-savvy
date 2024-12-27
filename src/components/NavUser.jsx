@@ -1,5 +1,5 @@
 "use client"
-
+import { useRouter } from "next/navigation"
 import {
   BadgeCheck,
   Bell,
@@ -33,7 +33,13 @@ import {
 export function NavUser({
   user,
 }) {
+
   const { isMobile } = useSidebar()
+  const router = useRouter()
+  const handleLogout =async()=>{
+    await fetch(`/api/logout/`, { method: "POST" });
+    router.push('/')
+  }
 
   return (
     <SidebarMenu>
@@ -96,7 +102,7 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>
               <LogOut />
               Log out
             </DropdownMenuItem>
