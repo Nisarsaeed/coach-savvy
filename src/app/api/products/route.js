@@ -22,7 +22,7 @@ export async function GET() {
   
       const products = await Product.find();
   
-      return new Response(JSON.stringify({ products }), {
+      return new Response(JSON.stringify( products ), {
         status: 200,
       });
     } catch (error) {
