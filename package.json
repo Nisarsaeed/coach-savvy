@@ -20,6 +20,7 @@
     "@radix-ui/react-toast": "^1.2.3",
     "@radix-ui/react-tooltip": "^1.1.6",
     "@reduxjs/toolkit": "^2.5.0",
+    "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
     "braintree": "^3.26.0",
     "braintree-web-drop-in": "^1.43.0",
