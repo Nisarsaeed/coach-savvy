@@ -2,33 +2,12 @@
 
 import Spacer from "@/components/ui/spacer";
 import { ContentSwitcher } from "@/components/ContentSwitcher";
-import { useState, useEffect } from "react";
+import useFetchCategories from "@/hooks/useFetchCategories";
 
 export default function Products() {
-  const [categories, setCategories] = useState(null)
-  useEffect(() => {
-      const fetchCategories = async () => {
-        try {
-          const response = await fetch("/api/categories", { method: "GET" });
-          if (!response.ok) {
-            throw new Error("Failed to fetch categories");
-          }
-          const data = await response.json();
-  
-          // Assuming the API returns an object with a `categories` field
-          if (Array.isArray(data.categories)) {
-            setCategories(data.categories); // Extract the array
-          } else {
-            throw new Error("Unexpected API response structure");
-          }
-        } catch (error) {
-          console.error("Error fetching categories:", error);
-        }
-      };
-  
-      fetchCategories();
-    }, []);
-    console.log(categories)
+  const {categories,loading,error} = useFetchCategories();
+  if (loading) return <p>Loading categories...</p>;
+  if (error) return <p>Error: {error}</p>;
   return (
     <div className="min-h-screen w-full">
       <Spacer />
@@ -40,8 +19,7 @@ export default function Products() {
           All Products
         </h1>
       </div>
-      <ContentSwitcher Tabs={categories} Variant={1}/>
-      
+      <ContentSwitcher Tabs={categories} Variant={1}/>      
     </div>
   );
 }

@@ -1,8 +1,6 @@
 "use client";
-import React from "react";
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchProducts } from "@/store/productsSlice";
+import useFetchCategories from "@/hooks/useFetchCategories";
+import useFetchProducts from "@/hooks/useFetchProducts";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import {
@@ -13,7 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
-import { Search, Plus, Edit, Trash2 } from "lucide-react";
+import { Search, Plus, Trash2 } from "lucide-react";
 import Image from "next/image";
 import {
   Select,
@@ -26,16 +24,12 @@ import {
 } from "./ui/select";
 
 const ProductsTable = () => {
-  const [categories, setCategories] = useState(null);
-  const products = useSelector((state) => state.products.items);
-  const dispatch = useDispatch();
-  const status = useSelector((state) => state.products.status);
-  
+  const { categories } = useFetchCategories();
+  const { products, loading } = useFetchProducts();
 
   const addNewProduct = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-
     const productData = {
       name: formData.get("name"),
       description: formData.get("description"),
@@ -43,7 +37,6 @@ const ProductsTable = () => {
       category: formData.get("category"),
       image: formData.get("image"),
     };
-    console.log(productData,'form')
     try {
       const response = await fetch("/api/products", {
         method: "POST",
@@ -61,39 +54,10 @@ const ProductsTable = () => {
   const handleDelete = async (id) =>
     await fetch(`/api/products/${id}`, { method: "DELETE" });
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await fetch("/api/categories", { method: "GET" });
-        if (!response.ok) {
-          throw new Error("Failed to fetch categories");
-        }
-        const data = await response.json();
-
-        // Assuming the API returns an object with a `categories` field
-        if (Array.isArray(data.categories)) {
-          setCategories(data.categories); // Extract the array
-        } else {
-          throw new Error("Unexpected API response structure");
-        }
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
-
-    fetchCategories();
-  }, []);
-  useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchProducts());
-    }
-  }, [dispatch, status, addNewProduct]);
-  if (status === "loading") return <p>Loading products...</p>;
-  if (status === "failed") return <p>Failed to load products.</p>;
+  if (loading) return <p>Loading products...</p>;
   const filteredCategories = categories?.filter(
     (category) => category.name !== "All"
   );
-  console.log(filteredCategories)
 
   return (
     <div className="space-y-6 ">
@@ -145,7 +109,7 @@ const ProductsTable = () => {
                 <SelectContent>
                   <SelectGroup>
                     <SelectLabel>Categories</SelectLabel>
-                    {filteredCategories?.map((cat) => ( 
+                    {filteredCategories?.map((cat) => (
                       <SelectItem key={cat?._id} value={cat?._id}>
                         {cat?.name}
                       </SelectItem>
@@ -219,7 +183,10 @@ const ProductsTable = () => {
                     £{item.price}
                   </td>
                   <td className="px-4 py-3 text-gray-900 dark:text-gray-100">
-                    { categories?.find(cat => cat?._id === item?.category)?.name }
+                    {
+                      categories?.find((cat) => cat?._id === item?.category)
+                        ?.name
+                    }
                   </td>
                   <td className="px-4 py-3 text-right space-x-2">
                     <Button

@@ -1,34 +1,23 @@
 "use client";
 import { useState } from "react";
 import Card from "./ui/product-card";
-import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchProducts } from "@/store/productsSlice";
+import useFetchProducts from "@/hooks/useFetchProducts";
 
 export const ContentSwitcher = ({ Tabs, Variant }) => {
   const allCatId = "676872aad5dce6ddc4830205";
   const [activeTab, setActiveTab] = useState(allCatId);
-  const dispatch = useDispatch();
-  const products = useSelector((state) => state.products.items);
-  const status = useSelector((state) => state.products.status);
-  console.log(products);
-  console.log(status);
 
-  useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchProducts());
-    }
-  }, [dispatch, status]);
-
-  if (status === "loading") return <p>Loading products...</p>;
-  if (status === "failed") return <p>Failed to load products.</p>;
-
+  const {products, error, loading} = useFetchProducts();
+  if (loading) return <p>Loading products...</p>;
+  if (error) return <p>Error fetching Products: {error}</p>;
+  
   const filteredContent =
     activeTab === allCatId
       ? products
       : products?.filter((item) => item.category === activeTab);
   console.log(filteredContent);
   const activeCategoryStyles = "!opacity-100 border-b-2";
+ 
   return (
     <div className="container mt-5 ">
       <nav
@@ -53,7 +42,7 @@ export const ContentSwitcher = ({ Tabs, Variant }) => {
           );
         })}
       </nav>
-      {Variant == 1 && filteredContent ? (
+      {Variant == 1 && filteredContent && (
         <div className="container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mt-14 ">
           {filteredContent && filteredContent.length > 0 ? (
             filteredContent.map((item, i) => (
@@ -72,11 +61,7 @@ export const ContentSwitcher = ({ Tabs, Variant }) => {
             </span>
           )}
         </div>
-      ) : (
-        <div className="text-primary text-center w-full col-span-4 text-lg min-h-[50vh] ">
-          Failed to fetch products
-        </div>
-      )}
+      ) }
       {Variant == 2 && (
         <div className=" rounded-b-xl bg-blue-900 p-12 shadow-[0_10px_30px_rgba(102,_23,_203,_0.8)]">
           {activeTab == 1 && (
