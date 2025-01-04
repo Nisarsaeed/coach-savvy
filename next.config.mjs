@@ -10,14 +10,6 @@ const nextConfig = {
           },
         ],
       },
-      async middleware() {
-        return [
-          {
-            source: "/ace/:path*",
-            destination: "/",
-          },
-        ];
-      },
 };
 
 export default nextConfig;
