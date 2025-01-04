@@ -8,7 +8,7 @@ export async function POST(req) {
   };
 
   try {
-    await axios.post('https://discord.com/api/webhooks/1322234546300780666/h1V3KqBj1qcsKocVWlSAB70VlfYrsbovhY4KaDbUgUIDwGZvjLxqmPHVVbd2IdrSUf0-', message);
+    await axios.post(DISCORD_HOOK, message);
     return new Response(
       JSON.stringify(
         { success: true, message: "Notification sent to Discord!" },
