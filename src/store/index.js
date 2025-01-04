@@ -1,11 +1,15 @@
+// store/store.js
 import { configureStore } from '@reduxjs/toolkit';
-import productsReducer from './productsSlice';
+import cartReducer from './cartSlice';
 
-const store = configureStore({
+export const store = configureStore({
   reducer: {
-    products: productsReducer,
-  },
+    cart: cartReducer
+  }
 });
 
-export default store;
-
+store.subscribe(() => {
+  if (typeof window !== 'undefined') {
+    localStorage.setItem('cart', JSON.stringify(store.getState().cart));
+  }
+});
