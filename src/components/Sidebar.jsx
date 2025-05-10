@@ -12,6 +12,8 @@ import {
   PieChart,
   Settings2,
   SquareTerminal,
+  ShoppingBag,
+  ShoppingCartIcon
 } from "lucide-react"
 
 import { NavMain } from "./NavMain"
@@ -30,35 +32,30 @@ const data = {
   user: {
     name: "Ace",
     email: "ace@gmail.com",
-    avatar: "/avatars/shadcn.jpg",
+    avatar: "/avatar.jpg",
   },
   teams: [
     {
-      name: "Acme Inc",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
+      name: "Coach Savvy",
+      logo: ShoppingCartIcon,
+      plan: "Ecommerce Store",
     },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
+    
   ],
   navMain: [
     {
-      title: "Products",
+      title: "Store",
       url: "#",
-      icon: SquareTerminal,
+      icon: ShoppingBag,
       isActive: true,
       items: [
         {
-          title: "Edit",
+          title: "Products",
           url: "/ace/products",
+        },
+        {
+          title: "Categories",
+          url: "/ace/categories",
         },
       ],
     },
