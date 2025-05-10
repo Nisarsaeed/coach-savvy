@@ -55,12 +55,11 @@ const Grid = () => {
         </a>
       </div>
       <div className="bg-accentBlue text-primary p-8 rounded-3xl shadow-lg cursor-pointer">
-        <h2 className="text-2xl font-bold">Experienced Developers</h2>
+        <h2 className="text-2xl font-bold">Expert Coaches</h2>
         <p className="text-sm mt-4 opacity-80">
-          Our development team has years of coding experience and is actively
-          working to produce great products.
+          Our team of seasoned gaming coaches possesses extensive experience and is dedicated to helping players master their skills and reach their full potential.
         </p>
-      </div>
+      </div>  
       <div className="bg-accentBlue text-primary rounded-3xl shadow-lg col-span-1 sm:col-span-2 cursor-pointer">
         <div
           className="h-full w-full flex items-center justify-center"

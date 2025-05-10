@@ -52,7 +52,7 @@ function Header() {
         <a 
           href="/"
         >
-          <Image src={'/logo.png'} width={70} height={70} alt='Cheat Savant' className='rounded-md'/>
+          <Image src={'/logo.png'} width={70} height={70} alt='Coach Savvy' className='rounded-md'/>
         </a>
 
         {/* Desktop Navigation */}
