@@ -2,7 +2,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 
 export const metadata = {
-  title: "CheatSavant | Terms",
+  title: "CoachSavvy | Terms",
   description: "Get all your valourant tools here",
 };
 
