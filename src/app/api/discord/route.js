@@ -1,14 +1,14 @@
 import axios from "axios";
 
 export async function POST(req) {
-  const { username, productName, price } = await req.json();
+  const { userName, productName, price,email } = await req.json();
 
   const message = {
-    content: `🎉 **New Purchase!**\n\n**User:** ${username}\n**Product:** ${productName}\n**Price:** $${price}`,
+    content: `🎉 **New Purchase!**\n\n**User:** ${userName}\n**Product:** ${productName}\n**Price:** $${price}\n**Email ${email}`,
   };
 
   try {
-    await axios.post(DISCORD_HOOK, message);
+    await axios.post(process.env.DISCORD_HOOK , message);
     return new Response(
       JSON.stringify(
         { success: true, message: "Notification sent to Discord!" },
