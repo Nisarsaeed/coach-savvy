@@ -86,3 +86,7 @@ body {
     @apply bg-background text-foreground;
   }
 }
+.braintree-form__notice-of-collection{
+  color: black;
+  margin-left:5px !important;
+}
