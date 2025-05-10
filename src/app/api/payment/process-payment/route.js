@@ -2,23 +2,16 @@ import { gateway } from "@/config/braintree";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
-  const { nonce, quantity } = await request.json();
+  const { nonce, totalPrice } = await request.json();
 
   // Validate data
-  if (!nonce || !quantity) {
+  if (!nonce || !totalPrice) {
     console.log("Nonce, id or quantity is missing");
     return Response.json(
       { message: "Nonce, id or quantity is missing" },
       { status: 400 }
     );
   }
-
-  // Get item from the database
-  const item = {
-    id: 10000,
-    price: 10,
-  };
-  const totalPrice = item.price * quantity;
 
   try {
     // Create payment
