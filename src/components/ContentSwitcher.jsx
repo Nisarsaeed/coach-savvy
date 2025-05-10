@@ -15,7 +15,6 @@ export const ContentSwitcher = ({ Tabs, Variant }) => {
     activeTab === allCatId
       ? products
       : products?.filter((item) => item.category === activeTab);
-  console.log(filteredContent);
   const activeCategoryStyles = "!opacity-100 border-b-2";
  
   return (
@@ -49,7 +48,7 @@ export const ContentSwitcher = ({ Tabs, Variant }) => {
               <Card
                 key={i}
                 img={item.image}
-                name={item.title}
+                name={item.name}
                 price={item.price}
                 className="col-span-1"
                 url={`/products/${item._id}`}
