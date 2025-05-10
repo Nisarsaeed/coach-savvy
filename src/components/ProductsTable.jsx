@@ -117,11 +117,10 @@ const ProductsTable = () => {
                   </SelectGroup>
                 </SelectContent>
               </Select>
-
               <Input
                 id="image"
                 name="image"
-                type="url"
+                type="text"
                 placeholder="Image URL"
                 required
               />
@@ -132,14 +131,12 @@ const ProductsTable = () => {
           </DialogContent>
         </Dialog>
       </div>
-
       <div className="flex items-center space-x-2">
         <div className="relative w-full max-w-sm">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
-          <Input placeholder="Search products..." className="pl-8" />
+          <Input placeholder="Search products..." className="pl-8 text-black" />
         </div>
       </div>
-
       <div className="rounded-md border border-gray-200 dark:border-gray-800">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
