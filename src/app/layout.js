@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "CheatSavant™",
+  title: "CoachSavvy™",
   description: "Get all your valourant tools here",
 };
 
