@@ -1,91 +1,70 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import dropin from "braintree-web-drop-in";
+import { useEffect, useRef, useState } from 'react';
+import dropin from 'braintree-web-drop-in';
 
-export default function PaymentComponent({onPaymentCompleted }) {
-  const [braintreeInstance, setBraintreeInstance] = useState(undefined);
+export default function PaymentComponent({ onPaymentCompleted, amount }) {
+  const containerRef = useRef(null);
+  const [instance, setInstance] = useState(null);
 
   useEffect(() => {
-      const initializeBraintree = async () =>
-        dropin.create(
-          {
-            // Get this from your backend instead of hardcoding
-            authorization: await fetchClientToken(),
-            container: "#braintree-drop-in-div",
-          },
-          function (error, instance) {
-            if (error) {
-              console.error(error);
-            } else {
-              setBraintreeInstance(instance);
-            }
-          }
-        );
+    let isMounted = true;
 
-      if (braintreeInstance) {
-        braintreeInstance.teardown().then(() => {
-          initializeBraintree();
+    (async () => {
+      try {
+        // 1. Fetch token
+        const { clientToken } = await fetch('/api/payment/get-braintree-client-token').then(r => r.json());
+
+        // 2. Ensure container is truly empty
+        const container = containerRef.current;
+        container.innerHTML = '';
+
+        // 3. Create drop-in once
+        const dropinInstance = await dropin.create({
+          authorization: clientToken,
+          container,
         });
-      } else {
-        initializeBraintree();
-      }
-    
-  }, []);
 
-  // Function to fetch client token from your backend
-  const fetchClientToken = async () => {
-    const response = await fetch("/api/payment/get-braintree-client-token");
-    const { clientToken } = await response.json();
-    return clientToken;
-  };
+        if (isMounted) setInstance(dropinInstance);
+      } catch (err) {
+        console.error('Braintree initialization error:', err);
+      }
+    })();
+
+    return () => {
+      isMounted = false;
+      // 4. Teardown on unmount
+      if (instance) {
+        instance.teardown().catch(console.error);
+      }
+    };
+  }, []); // run only on first mount
 
   const handlePayment = async () => {
-    if (braintreeInstance) {
-      braintreeInstance.requestPaymentMethod(async (error, payload) => {
-        if (error) {
-          console.error(error);
-        } else {
-          const paymentMethodNonce = payload.nonce;
-
-          try {
-            const response = await fetch("/api/payment/process-payment", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                nonce: paymentMethodNonce,
-                quantity: 10, // Replace with actual amount
-              }),
-            });
-
-            const result = await response.json();
-            console.log(result);
-            if (result.success) {
-              alert("Payment successful!");
-              if (onPaymentCompleted) {
-                onPaymentCompleted();
-              }
-            } else {
-              alert("Payment failed. Please try again.");
-            }
-          } catch (err) {
-            console.error(err);
-            alert("Something went wrong. Please try again.");
-          }
-        }
+    if (!instance) return;
+    try {
+      const { nonce } = await instance.requestPaymentMethod();
+      const res = await fetch('/api/payment/process-payment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nonce, totalPrice: amount }),
       });
+      const { success } = await res.json();
+      if (success) onPaymentCompleted();
+      else alert('Payment failed. Please try again.');
+    } catch (err) {
+      console.error(err);
+      alert('Something went wrong. Please try again.');
     }
   };
 
   return (
-    <div >
-      <div id="braintree-drop-in-div" />
-
+    <div>
+      {/* 5. This div must be empty before create */}
+      <div ref={containerRef} />
       <button
-        className="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-        disabled={!braintreeInstance}
+        className="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+        disabled={!instance}
         onClick={handlePayment}
       >
         Pay
