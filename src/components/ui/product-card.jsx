@@ -31,7 +31,7 @@ function Card({ img, name, price, className,url }) {
         </div>
         <div className="text-green-600 flex items-center space-x-1 font-semibold">
           <TbPointFilled size={25} className="drop-shadow-[0_0_5px_rgba(0,255,0,0.8)]"/>
-          <span>Undetected</span>
+          <span>Be the Best</span>
         </div>
         </div>
       </Link>
