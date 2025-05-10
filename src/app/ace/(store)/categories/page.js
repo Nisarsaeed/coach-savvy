@@ -14,8 +14,8 @@ import {
 import { Input } from "@/components/ui/input";
 
 function CatPage() {
-  const { categories, loading } = useFetchCategories();
-  if (loading) return <p>Loading categories...</p>;
+  const { categories, isCatLoading } = useFetchCategories();
+  if (isCatLoading) return <p>Loading categories...</p>;
   const filteredCategories = categories?.filter(
     (category) => category.name !== "All"
   );
