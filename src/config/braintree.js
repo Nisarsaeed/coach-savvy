@@ -2,8 +2,8 @@ import braintree from 'braintree';
 
 export const gateway = new braintree.BraintreeGateway({
   environment: braintree.Environment.Sandbox, // 'Sandbox' or 'Production'
-  merchantId: 'fdpwrsgpwnyw7p3s',
-  publicKey: 'n3dm9pvvgsw4n4n4',
-  privateKey: '9354534f276da432d48e21af8a697540',
+  merchantId: process.env.BRAINTREE_MERCHANT_ID,
+  publicKey: process.env.BRAINTREE_PUBLIC_KEY,
+  privateKey: process.env.BRAINTREE_PRIVATE_KEY,
 });
 
