@@ -23,7 +23,7 @@ export function LoginForm({ className, ...props }) {
     });
 
     if (res.ok) {
-      router.push("/ace");
+      router.push("/ace/products");
     } else {
       const { error } = await res.json();
       setError(error);
@@ -39,7 +39,7 @@ export function LoginForm({ className, ...props }) {
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">Welcome back ACE</h1>
                 <p className="text-balance text-muted-foreground">
-                  Login to CheatSavant
+                  Login to CoachSavvy
                 </p>
               </div>
               <div className="grid gap-2">
