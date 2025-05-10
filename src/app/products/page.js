@@ -1,17 +1,15 @@
-"use client";
-
 import Spacer from "@/components/ui/spacer";
-import { ContentSwitcher } from "@/components/ContentSwitcher";
-import useFetchCategories from "@/hooks/useFetchCategories";
+import { GridBackground } from "@/components/ui/bg-grid";
+import Header from "@/components/Header";
+import ProductCategories from "@/components/ProductCategories";
 
 export default function Products() {
-  const {categories,loading,error} = useFetchCategories();
-  if (loading) return <p>Loading categories...</p>;
-  if (error) return <p>Error: {error}</p>;
   return (
-    <div className="min-h-screen w-full">
+    <div className="min-h-screen w-full relative">
+      <Header/>
       <Spacer />
-      <div className="text-primary min-h-[40vh] flex flex-col justify-center items-center">
+      <GridBackground/>
+      <div className="text-primary min-h-[50vh] flex flex-col justify-center items-center relative z-10">
         <h3 className="font-semibold text-xl mb-3 uppercase text-center opacity-80">
           Explore our offers
         </h3>
@@ -19,7 +17,7 @@ export default function Products() {
           All Products
         </h1>
       </div>
-      <ContentSwitcher Tabs={categories} Variant={1}/>      
+      <ProductCategories/>     
     </div>
   );
 }
