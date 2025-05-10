@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 const useFetchCategories = () => {
   const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [isCatLoading, setIsCatLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -17,14 +17,14 @@ const useFetchCategories = () => {
       } catch (err) {
         setError(err.message);
       } finally {
-        setLoading(false);
+        setIsCatLoading(false);
       }
     };
 
     fetchCategories();
   }, []);
 
-  return { categories, loading, error };
+  return { categories, isCatLoading, error };
 };
 
 export default useFetchCategories;
